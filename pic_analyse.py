@@ -4,33 +4,45 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.cluster import KMeans
 
-
+# define some parameters
 im = Image.open("test.jpg")
 pix = im.load()
 x_max = im.size[0]
 y_max = im.size[1]
-R = np.zeros((x_max*y_max,3),dtype=np.int)
-G = np.zeros((x_max*y_max,3),dtype=np.int)
-B = np.zeros((x_max*y_max,3),dtype=np.int)
-# print "x_max = {0} y_max = {1}".format(x_max,y_max)
-# G = np.zeros(im.size)
-# B = np.zeros(im.size)
+rgb_vals = np.zeros((x_max*y_max,5),dtype=np.int)
+x_vals = np.arange(0,x_max)
+y_vals = np.arange(0,y_max)
 
-k =0
-for i in range(1,x_max):
-	for j in range(1,y_max):
-		R[k,:] = np.array([i,j,pix[i,j][0]]) 
-		G[k,:] = np.array([i,j,pix[i,j][1]]) 
-		B[k,:] = np.array([i,j,pix[i,j][2]]) 
-		k+=1
-		# G[i,j] = pix[i,j][1]
-		# B[i,j] = pix[i,j][2]
-		# # A[i,j] = pix[i,j][3]
-for x in (R,G,B):
-	print "********************"
-	k_means = KMeans(init='k-means++', n_clusters=9, n_init=10)
-	k_means.fit(x)
-	print k_means.cluster_centers_
+def create_vals(i,j):
+	return  np.array([pix[i,j][0],pix[i,j][1],pix[i,j][2]])
+# G = np.zeros((x_max*y_max,3),dtype=np.int)
+# B = np.zeros((x_max*y_max,3),dtype=np.int)
+# print "x_max = {0} y_max = {1}".format(x_max,y_max)
+
+
+rgb_vals = np.array(map(lambda i : map(lambda j : create_vals(i,j),y_vals),x_vals))
+# for i in range(1,x_max):
+# 	for j in range(1,y_max):
+# 		Z[k,:] = np.array([i,j,pix[i,j][0],pix[i,j][1],pix[i,j][2]])
+# 		k+=1
+# 		# G[i,j] = pix[i,j][1]
+# 		# B[i,j] = pix[i,j][2]
+print "{0} {1} {2}".format(rgb_vals.shape,x_max,y_max)
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d')	
+# k_means = KMeans(init='k-means++', n_clusters=9, n_init=100)
+
+# k_means.fit(Z)
+# z.append(k_means.cluster_centers_)
+
+
+# for x in k_means.cluster_centers_:
+# 	plt.scatter(x[0],x[1])
+
+# plt.show()
+
+# ax.scatter(np.arange(1,10),np.arange(1,10),np.arange(1,10))
+
 
 # fignum = 1
 # for name, est in estimators.items():
