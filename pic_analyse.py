@@ -3,25 +3,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.cluster import KMeans
+from itertools import chain
 
 # define some parameters
 im = Image.open("test.jpg")
 pix = im.load()
 x_max = im.size[0]
 y_max = im.size[1]
+empty_matrix = np.zeros((x_max,y_max),dtype=np.int)
+indexes =  map(lambda i : i[0] , np.ndenumerate(empty_matrix))
 rgb_vals = np.zeros((x_max*y_max,5),dtype=np.int)
 x_vals = np.arange(0,x_max)
 y_vals = np.arange(0,y_max)
 k =0
 
-def create_vals(i,j,k):
-	rgb_vals[k,:] = np.array([i,j,pix[i,j][0],pix[i,j][1],pix[i,j][2]])
-	k= k+1
+def create_vals(i,j):
+	return np.array([i,j,pix[i,j][0],pix[i,j][1],pix[i,j][2]])
 
 
-map(lambda i : map(lambda j : create_vals(i,j,k),y_vals),x_vals)
+rgb_vals = map(lambda x : create_vals(x[0],x[1]),indexes)
 rgb_vals = np.array(rgb_vals)
-
+print "{0}".format(rgb_vals.shape)
 
 # fig = plt.figure()
 # ax = fig.add_subplot(111, projection='3d')	
