@@ -12,22 +12,17 @@ y_max = im.size[1]
 rgb_vals = np.zeros((x_max*y_max,5),dtype=np.int)
 x_vals = np.arange(0,x_max)
 y_vals = np.arange(0,y_max)
+k =0
 
-def create_vals(i,j):
-	return  np.array([pix[i,j][0],pix[i,j][1],pix[i,j][2]])
-# G = np.zeros((x_max*y_max,3),dtype=np.int)
-# B = np.zeros((x_max*y_max,3),dtype=np.int)
-# print "x_max = {0} y_max = {1}".format(x_max,y_max)
+def create_vals(i,j,k):
+	rgb_vals[k,:] = np.array([i,j,pix[i,j][0],pix[i,j][1],pix[i,j][2]])
+	k= k+1
 
 
-rgb_vals = np.array(map(lambda i : map(lambda j : create_vals(i,j),y_vals),x_vals))
-# for i in range(1,x_max):
-# 	for j in range(1,y_max):
-# 		Z[k,:] = np.array([i,j,pix[i,j][0],pix[i,j][1],pix[i,j][2]])
-# 		k+=1
-# 		# G[i,j] = pix[i,j][1]
-# 		# B[i,j] = pix[i,j][2]
-print "{0} {1} {2}".format(rgb_vals.shape,x_max,y_max)
+map(lambda i : map(lambda j : create_vals(i,j,k),y_vals),x_vals)
+rgb_vals = np.array(rgb_vals)
+
+
 # fig = plt.figure()
 # ax = fig.add_subplot(111, projection='3d')	
 # k_means = KMeans(init='k-means++', n_clusters=9, n_init=100)
